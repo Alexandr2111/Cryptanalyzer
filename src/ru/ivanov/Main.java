@@ -8,12 +8,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
         try
         {
-        System.out.println("Добро пожаловать в программу для шифрования данных!\nВыберите режим работы программы:");
-        System.out.println("1 - Шифрование/расшифровка (с помощью криптографического ключа),\n2 - Криптоанализ методом brute force (поиск грубой силой).");
+        System.out.println("Добро пожаловать в программу для шифрования/расшифровки данных методом шифра Цезаря!" +
+                "\nВыберите режим работы программы:");
+        System.out.println("1 - Шифрование/расшифровка (с помощью криптографического ключа)\n" +
+                "2 - Криптоанализ методом brute force (поиск грубой силой)");
         int choice = scanner.nextInt();
 
         if (choice == 1)
@@ -27,7 +28,8 @@ public class Main {
                 String path = scanner1.nextLine();
                 if (Files.notExists(Path.of(path)))
                 {
-                    System.out.println("Введенные данные не являются путем к текстовому файлу или файл не найден");
+                    System.out.println("Введенные данные не являются путем к текстовому файлу" +
+                                    "или файл не найден, перезапустите программу.");
                     System.exit(0);
                 }
                 System.out.println("Введите ключ:");
@@ -43,7 +45,8 @@ public class Main {
                 String path = scanner2.nextLine();
                 if (Files.notExists(Path.of(path)))
                 {
-                    System.out.println("Введенные данные не являются путем к текстовому файлу или файл не найден");
+                    System.out.println("Введенные данные не являются путем к текстовому файлу" +
+                            "или файл не найден, перезапустите программу.");
                     System.exit(0);
                 }
                 System.out.println("Введите ключ:");
@@ -63,11 +66,12 @@ public class Main {
             String path = scanner3.nextLine();
             if (Files.notExists(Path.of(path)))
             {
-                System.out.println("Введенные данные не являются путем к текстовому файлу или файл не найден");
+                System.out.println("Введенные данные не являются путем к текстовому файлу" +
+                        "или файл не найден, перезапустите программу.");
                 System.exit(0);
             }
-//            CaesarCipher.decryptBruteForce(path);
-//            System.out.println("Файл с расшифрованным текстом расположен в той же директории.");
+            CaesarCipher.decryptBruteForce(path);
+            System.out.println("Файл с расшифрованным текстом расположен в той же директории.");
         }
         else
         {
@@ -76,7 +80,7 @@ public class Main {
       }
         catch (InputMismatchException e)
       {
-            System.out.println("Введите 1 или 2");
+            System.out.println("Некорректные данные. Перезапустите программу.");
       }
     }
 }
