@@ -5,83 +5,116 @@ import java.nio.file.Path;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Задача: написать программу, которая работает с шифром Цезаря.
+ * За основу криптографического алфавита взяты все буквы русского алфавита и знаки пунктуации ( . , ” : - ! ? ПРОБЕЛ ).
+ * Если попадаются символы, которые не входят в криптографический алфавит, они пропускаются.
+ * У программы 2 режима:
+ * 1 . Шифрование / расшифровка. Программа зашифровывает и расшифровывает текст,
+ * используя заданный криптографический ключ.
+ * Программа получает путь к текстовому файлу с исходным текстом и на его основе создает файл с зашифрованным текстом.
+ * 2. Криптоанализ методом brute force
+ * Программа взламывает зашифрованный текст, переданный в виде текстового файла.
+ * Если выбран brute force (брутфорс, поиск грубой силой), программа самостоятельно, путем перебора,
+ * подобирает ключ и расшифровывает текст.
+ * P.S. Если программа не смогла уловить сигнал успешного подбора ключа,
+ * предоставляется выбор пользователю выбрать правильный вариант из списка предложенных.
+ */
 
 public class Main {
+
+    /**
+     * В главном методе main реализованна работа с пользователем и вызов статических методов класса CaesarCipher,
+     * в котором уже реализовано шифрование и расшивровка теста,
+     * как с использованием ключа так и методом подбора, и создание файла с этим текстом.
+     * Пользователю предлагается выбрать один из вариантов работы с текстовым файлом
+     * и в зависимости от его выбора, вызываются соответствующие методы. Подробное описание работы вызванных
+     * статических методов класса CaesarCipher рассмотрено в самом классе.
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        // оборачиваю в try catch, чтобы поймать исключение InputMismatchException,
+        // на тот случай если пользователь введет вместо цифр другие знаки или буквы
         try
         {
-        System.out.println("Добро пожаловать в программу для шифрования/расшифровки данных методом шифра Цезаря!" +
-                "\nВыберите режим работы программы:");
-        System.out.println("1 - Шифрование/расшифровка (с помощью криптографического ключа)\n" +
-                "2 - Криптоанализ методом brute force (поиск грубой силой)");
-        int choice = scanner.nextInt();
-
-        if (choice == 1)
-        {
-            System.out.println("Для шифрования введите - 1, для расшифровки - 2.");
-            int choice1 = scanner.nextInt();
-            if (choice1 == 1)
+            System.out.println("Добро пожаловать в программу для шифрования/расшифровки данных методом шифра Цезаря!" +
+                    "\nВыберите режим работы программы:");
+            System.out.println("1 - Шифрование/расшифровка (с помощью криптографического ключа)\n" +
+                    "2 - Криптоанализ методом brute force (поиск грубой силой)");
+            int choice = scanner.nextInt();
+            // далее в зависимости от выбора пользователя идут ветвления с помощью конструкции if-else
+            if (choice == 1)
             {
-                System.out.println("Введите путь к текстовому файлу:");
-                Scanner scanner1 = new Scanner(System.in);
-                String path = scanner1.nextLine();
-                if (Files.notExists(Path.of(path)))
+                System.out.println("Для шифрования введите - 1, для расшифровки - 2.");
+                int choice1 = scanner.nextInt();
+                if (choice1 == 1)
                 {
-                    System.out.println("Введенные данные не являются путем к текстовому файлу" +
-                                    "или файл не найден, перезапустите программу.");
-                    System.exit(0);
-                }
-                System.out.println("Введите ключ:");
-                int key = scanner1.nextInt();
-                CaesarCipher.encryptFromFile(path, key);
-                System.out.println("Файл с зашифрованным текстом расположен в той же директории.");
+                    System.out.println("Введите путь к текстовому файлу:");
+                    Scanner scanner1 = new Scanner(System.in);
+                    String path = scanner1.nextLine();
+                    // на случай, если пользователь введет неправильный путь или рандомные символы
+                    if (Files.notExists(Path.of(path)))
+                    {
+                        System.out.println("Введенные данные не являются путем к текстовому файлу" +
+                                "или файл не найден, перезапустите программу.");
+                        System.exit(0);
+                    }
+                    System.out.println("Введите ключ:");
+                    int key = scanner1.nextInt();
+                    // осуществляется шифрование текста и создание файла,
+                    // с добавлением в него зашифрованного текста с учетом введенного ключа
+                    CaesarCipher.encryptFromFile(path, key);
+                    System.out.println("Файл с зашифрованным текстом расположен в той же директории.");
 
+                }
+                else if (choice1 == 2)
+                {
+                    System.out.println("Введите путь к текстовому файлу:");
+                    Scanner scanner2 = new Scanner(System.in);
+                    String path = scanner2.nextLine();
+                    if (Files.notExists(Path.of(path)))
+                    {
+                        System.out.println("Введенные данные не являются путем к текстовому файлу" +
+                                "или файл не найден, перезапустите программу.");
+                        System.exit(0);
+                    }
+                    System.out.println("Введите ключ:");
+                    int key = scanner2.nextInt();
+                    // осуществляется расшифрока текста и создание файла,
+                    // с добавлением в него расшифрованного текста с учетом введенного ключа
+                    CaesarCipher.decryptFromFile(path, key);
+                    System.out.println("Файл с расшифрованным текстом расположен в той же директории.");
+                }
+                else
+                {
+                    System.out.println("Введите 1 или 2");
+                }
             }
-            else if (choice1 == 2)
+            else if (choice == 2)
             {
                 System.out.println("Введите путь к текстовому файлу:");
-                Scanner scanner2 = new Scanner(System.in);
-                String path = scanner2.nextLine();
+                Scanner scanner3 = new Scanner(System.in);
+                String path = scanner3.nextLine();
                 if (Files.notExists(Path.of(path)))
                 {
                     System.out.println("Введенные данные не являются путем к текстовому файлу" +
                             "или файл не найден, перезапустите программу.");
                     System.exit(0);
                 }
-                System.out.println("Введите ключ:");
-                int key = scanner2.nextInt();
-                CaesarCipher.decryptFromFile(path, key);
-                System.out.println("Файл с расшифрованным текстом расположен в той же директории.");
+                // осуществляется расшифрока текста и создание файла,
+                // с добавлением в него расшифрованного текста, а так же на случай неудачной расшифровки
+                // пользователю предлагаются все варианты расшировки на выбор с каждого подбора.
+                CaesarCipher.decryptBruteForce(path);
             }
             else
             {
                 System.out.println("Введите 1 или 2");
             }
         }
-        else if (choice == 2)
-        {
-            System.out.println("Введите путь к текстовому файлу:");
-            Scanner scanner3 = new Scanner(System.in);
-            String path = scanner3.nextLine();
-            if (Files.notExists(Path.of(path)))
-            {
-                System.out.println("Введенные данные не являются путем к текстовому файлу" +
-                        "или файл не найден, перезапустите программу.");
-                System.exit(0);
-            }
-            CaesarCipher.decryptBruteForce(path);
-            System.out.println("Файл с расшифрованным текстом расположен в той же директории.");
-        }
-        else
-        {
-            System.out.println("Введите 1 или 2");
-        }
-      }
         catch (InputMismatchException e)
-      {
+        {
             System.out.println("Некорректные данные. Перезапустите программу.");
-      }
+        }
     }
 }
 
