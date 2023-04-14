@@ -21,8 +21,8 @@ public class CaesarCipher {
      * Статические методы, используемые внутри описаны ниже.
      */
     public static void encryptFromFile(String path, int key) {
-        String pathOfEncryptedFile = path.substring(0, path.lastIndexOf('\\') + 1) + "encrypted" +
-                path.substring((path.lastIndexOf('\\') + 1));
+        String pathOfEncryptedFile = path.substring(0, path.lastIndexOf('/') + 1) + "encrypted" +
+                path.substring((path.lastIndexOf('/') + 1));
         Path encryptedFile = Path.of(pathOfEncryptedFile);
         CaesarCipher.createFile(encryptedFile);
         try
@@ -41,8 +41,8 @@ public class CaesarCipher {
      * Статические методы, используемые внутри описаны ниже.
      */
     public static void decryptFromFile(String path, int key) {
-        String pathOfDecryptedFile = path.substring(0, path.lastIndexOf('\\') + 1) + "decrypted" +
-                path.substring((path.lastIndexOf('\\') + 1));
+        String pathOfDecryptedFile = path.substring(0, path.lastIndexOf('/') + 1) + "decrypted" +
+                path.substring((path.lastIndexOf('/') + 1));
         Path decryptedFile = Path.of(pathOfDecryptedFile);
         CaesarCipher.createFile(decryptedFile);
         try
@@ -62,8 +62,8 @@ public class CaesarCipher {
      * Статические методы, используемые внутри описаны ниже.
      */
     public static void decryptBruteForce(String path) {
-        String pathOfDecryptedFile = path.substring(0, path.lastIndexOf('\\') + 1) + "decrypted" +
-                path.substring((path.lastIndexOf('\\') + 1));
+        String pathOfDecryptedFile = path.substring(0, path.lastIndexOf('/') + 1) + "decrypted" +
+                path.substring((path.lastIndexOf('/') + 1));
         Path decryptedFile = Path.of(pathOfDecryptedFile);
         CaesarCipher.createFile(decryptedFile);
 
